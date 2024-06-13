@@ -1,0 +1,87 @@
+{% extends "base.html" %} {% block title %}Home{% endblock %}
+
+{% block content %}
+
+
+<style>
+    /* Background for the entire page */
+    body {
+        background-color: #898aa1; /* Light grey background */
+        background-size: cover;
+        background-position: center;
+    }
+
+    /* Main container styling */
+    .container.p-4.border.rounded {
+        background-color: white; /* White background for the main container */
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+        /* Default style for nav links */
+        .nav-link {
+        color: #fff; /* Regular color for nav links */
+    }
+
+    /* Style for active nav link */
+    .nav-link.active {
+        color: #aaa; /* Lighter color for the active link */
+    }
+
+</style>
+
+<div class="container p-4 border rounded">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbar"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbar">
+          <div class="navbar-nav">
+            <a class="nav-item nav-link" id="list" href="/">To do list</a>
+            <a class="nav-item nav-link" id="board" href="/board">Board</a>
+          </div>
+        </div>
+    </nav>
+
+    <h1 align="center">To do list</h1><br>
+
+    <div>
+        <form method="POST">
+            <textarea name="note" id="note" class="form-control" placeholder="Enter Task"></textarea>
+            <input name="date" type="date" class="form-control">
+            <input name="time" type="time" class="form-control">
+            <br />
+            <div align="center">
+                <button type="submit" class="btn btn-primary text-nowrap" style="background-color: darkcyan; border: none">Add Task</button>
+            </div>
+        </form>
+    </div>
+    <hr style="height:2px;border-width:0; background-color:black ">
+
+    <body>
+        <ul class="list-group list-group-flush" id="notes">
+            {% for note in user.notes %}
+            <li class="list-group-item">
+                <input type="checkbox" style="cursor:pointer" name="done" {% if note[done] %} checked {%endif%} onchange="this.form.submit()">
+                <span {% if note[done] %} style="text-decoration: line-through" {%endif%}>{{ note.data }}</span>
+                <small class="text-muted" style="color:black; display:block">{{ note.date }}</small>
+                <small class="text-muted" style="color:black;">{{ note.time }}</small>
+                <button style="float: right" type="button" class="close" onClick="deleteNote('{{ note.id }}')">
+                    <span aria-hidden="true">&times;</span>
+                </button>            
+            </li>
+
+            {% endfor %}
+        </ul>
+    </body>
+
+    
+    
+</div>
+{% endblock %}

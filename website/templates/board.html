@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block title %}Board{% endblock %}
+{% block content %}
+
+<style>
+  /* Background for the entire page */
+  body {
+      background-color: #898aa1; /* Light grey background */
+      background-size: cover;
+      background-position: center;
+  }
+
+  /* Main container styling */
+  .container.p-4.border.rounded {
+      background-color: white; /* White background for the main container */
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Style for active nav link */
+  .nav-link.active {
+      color: #aaa; /* Lighter color for the active link */
+  }
+</style>
+
+<div class="container p-4 border rounded">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbar">
+            <div class="navbar-nav">
+                <a class="nav-item nav-link" id="list" href="/list">To do list</a>
+                <a class="nav-item nav-link" id="board" href="/board">Board</a>
+            </div>
+        </div>
+    </nav>
+
+    <h1 align="center">Board</h1>
+
+    <div class="row justify-content-center">
+        <div class="col-sm-6">
+            <form action="{{ url_for('views.uploads') }}" method="POST" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="file">Image</label>
+                    <input type="file" class="form-control" id="file" name="file">
+                </div>
+                <button type="submit" class="btn btn-dark">Upload</button>
+            </form>
+        </div>
+    </div>
+
+    <hr style="height:2px;border-width:0; background-color:black ">
+
+    <div class="row">
+        {% for image in files %}
+        <div class="col-sm-4">
+            <a href="{{ url_for('views.uploaded_file', filename=image.filename) }}">
+                <img src="{{ url_for('views.uploaded_file', filename=image.filename) }}" class="img img-thumbnail" />
+            </a>
+            <a href="{{ url_for('views.download', file_id=image.id) }}" class="btn btn-sm btn-dark">Download</a>
+            <a href="{{ url_for('views.delete', file_id=image.id) }}" class="btn btn-sm btn-danger">Delete</a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', (event) => {
+      const path = window.location.pathname;
+      document.querySelectorAll('.nav-link').forEach(link => {
+          link.classList.remove('active');
+      });
+      if (path === '/board') {
+          document.getElementById('board').classList.add('active');
+      } else if (path === '/home') {
+          document.getElementById('list').classList.add('active');
+      }
+  });
+</script>
+
+{% endblock %}

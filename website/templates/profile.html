@@ -1,0 +1,27 @@
+{% extends "base.html" %} {% block title %}Profile{% endblock %}
+
+{% block content %}
+
+<div class="container p-4 border rounded">
+    <h1 align="center">Profile</h1>
+<p>Welcome to your profile page.</p>
+</div>
+
+<style>
+    /* Background for the entire page */
+    body {
+        background-color: #898aa1; /* Light grey background */
+        background-size: cover;
+        background-position: center;
+    }
+    
+    /* Main container styling */
+    .container.p-4.border.rounded {
+        background-color: white; /* White background for the main container */
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+</style>
+
+{% endblock %}
